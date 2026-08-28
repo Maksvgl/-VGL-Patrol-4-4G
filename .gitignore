@@ -1,0 +1,15 @@
+# IDE and compiler output
+**/_build/
+**/Debug/
+**/Release/
+*.o
+*.obj
+*.pbi
+*.pbd
+*.pbw
+*.out
+*.map
+
+# Local editor/session files
+.DS_Store
+Thumbs.db

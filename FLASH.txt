@@ -1,0 +1,8 @@
+sector 4K 32K 64K (physical block size)
+page 256 byte (physical page size)
+write to 0xFF
+
+commands:
+sector 4K / 64 erase - 0x20 / 0xD8
+page 256 byte program - 0x02
+read data - 0x03
