@@ -50,6 +50,20 @@ if Path(sys.argv[0]).name=='nrfjprog.exe':
 else:
  script=Path(args[args.index('-CommandFile')+1]);lines=script.read_text().splitlines()
  if scenario=='jlink_error'and 'Release_debug_power_FINAL'in script.name:print('Unknown command: WriteDP');sys.exit(0)
+ if scenario=='jlink_benign_uptime':
+  print('SEGGER J-Link Commander V7.94e (Compiled Jan 15 2024 15:20:36)')
+  print('J-Link uptime (since boot): N/A (Not supported by this model)')
+  print('Connecting to target via SWD')
+  print('Cortex-M4 identified.')
+ real_errors={
+  'jlink_unsupported_command':'Command WriteDP is not supported.',
+  'jlink_unsupported_command_prefix':'Command not supported: WriteDP',
+  'jlink_syntax_error':'Syntax: WriteDP <RegIndex> <Data>',
+  'jlink_connect_failure':'Cannot connect to target.',
+  'jlink_error_line':'ERROR: Failed to read memory',
+ }
+ if scenario in real_errors and 'Release_debug_power_FINAL'in script.name:
+  print(real_errors[scenario]);sys.exit(0)
  for line in lines:
   with tp.open('a')as f:f.write(json.dumps({'command':line})+'\n')
   parts=re.split('[,\\s]+',line.strip());parts=[x for x in parts if x]
@@ -70,7 +84,12 @@ else:
      if scenario=='invalid_rtc':put(0x2000ffd8,bytes(6))
      if scenario=='old_rtc':put(0x2000ffd8,bytes([0,0,0,1,1,0]))
     pw(0xe000e200,0)
-  elif op=='savebin':Path(parts[1]).write_bytes(get(int(parts[2],0),int(parts[3],0)))
+  elif op=='savebin':
+   # J-Link Commander interprets address and NumBytes as hexadecimal, including
+   # bare digits: `64` requests 0x64=100 bytes, while `0x40` requests 64.
+   address=int(parts[2],16);count=int(parts[3],16)
+   Path(parts[1]).write_bytes(get(address,count))
+   print('Reading %d bytes from addr 0x%08X into file...O.K.'%(count,address))
   elif op in ['halt','sleep','exit','writedp','wait','connect','r']:pass
   else:raise RuntimeError('Unexpected JLink command '+line)
  print('J-Link mock completed')

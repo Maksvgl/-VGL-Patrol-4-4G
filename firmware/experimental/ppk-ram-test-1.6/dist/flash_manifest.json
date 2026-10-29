@@ -12,8 +12,8 @@
     },
     {
       "file": "DRIVER_INTERFACE.md",
-      "size_bytes": 4775,
-      "sha256": "3fe2210534420c91adb127fb19c3a1ae3fcc1c71035f32e7428ef4ca6753e305"
+      "size_bytes": 4994,
+      "sha256": "b122b4b464fa8e79538032d530307bc1aceb3134041a095cf972276517d5798e"
     },
     {
       "file": "FLASH_AND_START_PPK_TEST.bat",
@@ -22,13 +22,13 @@
     },
     {
       "file": "PPK_Test.ps1",
-      "size_bytes": 23068,
-      "sha256": "9025e71e52cd53df332c64ba2292d8a32364762a917e339061292a9f011b41c4"
+      "size_bytes": 23405,
+      "sha256": "c5d79c2a427588553e05a423c083cb6587c5773bf06e5d759b31e9833146a35b"
     },
     {
       "file": "README_RU.md",
-      "size_bytes": 15172,
-      "sha256": "76049981af5a4df965362d5b25ccf65ba36af1b307f9d5725f395a214e01d85f"
+      "size_bytes": 16229,
+      "sha256": "657125d5ab87312431a94e01d0ec56df68bcef2413a4d0b03a0ca231bd3174a4"
     },
     {
       "file": "RECOVER_AND_RESTORE_APPROVED_1_6.bat",
@@ -48,7 +48,7 @@
     {
       "file": "SHA256SUMS",
       "size_bytes": 1957,
-      "sha256": "f4540724af5690e38c038e3c4fbc9fbc6fcc63ca9f783cb5d8730485ffac9bcf"
+      "sha256": "538ddeb663d10101b52120108382e4e973fe2b008616efe4758c39ac43454caa"
     },
     {
       "file": "START_PPK_TEST.bat",
@@ -112,8 +112,8 @@
     },
     {
       "file": "validation_summary.json",
-      "size_bytes": 1319,
-      "sha256": "5f9432802d2bbc8f75c52a76f0a12cd565c3ea58dc442c2d1b242eca711769ca"
+      "size_bytes": 1452,
+      "sha256": "44fb837fc9c08f09d43cf00d765a25294f75b876f4c9fe896e68d56b11141240"
     }
   ]
 }

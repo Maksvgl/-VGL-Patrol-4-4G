@@ -14,7 +14,8 @@ https://github.com/PowerShell/PowerShell/releases/download/v7.4.13/powershell-7.
 
 `results.json` records the driver SHA-256 and each result. Ignored `cases/` directories retain full console output, tool traces, simulated memory, and the driver's per-run logs.
 
-Current run: **41/41 passed**, including seven Java/SEGGER discovery regressions.
+Current run: **47/47 passed**, including seven Java/SEGGER discovery regressions
+and six real-output classification regressions.
 
 Coverage includes package validation before tool access; ordinary and recover flashing; UICR checks/restoration and ordering; RAM-only start; normal-boot checks with inactive/active external settings; approved-firmware restoration and its post-boot verification; explicit probe selection; multiple probes; checksum and manifest path rejection; protected/unexpected configuration; absent startup stamp; disabled IRQ20; pending request; dirty startup mailbox; RTC failures; invalid/stale RTC readback; wrong cookies/ticks/activation/coil/power-saving flags; parsed J-Link error output with exit code zero; illegal option combinations; and final debug power-release ordering.
 
@@ -26,6 +27,20 @@ probes, and therefore before recovery or programming. Discovery inspects the
 executable without running it: the genuine mock contains the exact embedded
 Commander banner, while the separate Java mock does not. Windows PE version
 metadata itself is not exercised by these Linux fixtures.
+
+The SaveBin fake follows J-Link's hexadecimal address/count semantics, including
+bare digits. The harness asserts mailbox dumps are 64 bytes, flag dumps 8 bytes,
+register dumps 4 bytes, and that mailbox reads stay inside nRF52832 RAM. Against
+the old distributed driver, `SaveBin ..., 64` produced 100 bytes and reproduced
+`mailbox_before.bin has an unexpected length`. The exact real output line
+`J-Link uptime (since boot): N/A (Not supported by this model)` also reproduced
+the old driver's false `J-Link reported a failure` result.
+
+The corrected driver succeeds when that benign uptime line appears in all three
+J-Link sessions, including the final debug power release. Zero-exit genuine
+errors are still rejected: Unknown command, both command-not-supported forms,
+Syntax, Cannot connect to target, and explicit ERROR. These observations are
+recorded under `regression_evidence` in `results.json`.
 
 The fake J-Link consumes a factory request only after the driver writes the IRQ20 pending bit. Successful flows must finish with `Go`, `WriteDP 2, 0`, `WriteDP 1, 0`, `Exit`, with no later tool access. Non-flash flows must not reset/recover/write UICR/program flash. Normal checks and approved restoration must not send a RAM factory request. Failed operations must not produce a success result file.
 

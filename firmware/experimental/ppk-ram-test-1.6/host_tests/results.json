@@ -1,12 +1,12 @@
 {
-  "driver_sha256": "9025e71e52cd53df332c64ba2292d8a32364762a917e339061292a9f011b41c4",
+  "driver_sha256": "c5d79c2a427588553e05a423c083cb6587c5773bf06e5d759b31e9833146a35b",
   "runtime": "PowerShell 7.4.13 Linux (official distribution)",
   "runtime_version": "7.4.13",
   "platform": "Linux-6.18.55-x86_64-with-glibc2.39",
   "hardware_access": false,
   "scope": "PowerShell 7 Linux host logic with Python executable mocks; does not prove Windows 5.1, SWD, RTC, firmware or electrical behavior",
-  "passed": 41,
-  "total": 41,
+  "passed": 47,
+  "total": 47,
   "results": [
     {
       "name": "validate_only",
@@ -261,6 +261,60 @@
       "jlink_commands": 31
     },
     {
+      "name": "benign_jlink_uptime_all_sessions",
+      "passed": true,
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "issues": [],
+      "tool_calls": 5,
+      "jlink_commands": 31
+    },
+    {
+      "name": "unsupported_jlink_command",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 6,
+      "jlink_commands": 31
+    },
+    {
+      "name": "unsupported_jlink_command_prefix",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 6,
+      "jlink_commands": 31
+    },
+    {
+      "name": "jlink_syntax_error",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 6,
+      "jlink_commands": 31
+    },
+    {
+      "name": "jlink_connect_failure",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 6,
+      "jlink_commands": 31
+    },
+    {
+      "name": "jlink_explicit_error_line",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 6,
+      "jlink_commands": 31
+    },
+    {
       "name": "invalid_recover",
       "passed": true,
       "exit_code": 1,
@@ -377,5 +431,27 @@
       "tool_calls": 0,
       "jlink_commands": 0
     }
-  ]
+  ],
+  "regression_evidence": {
+    "old_distributed_driver": {
+      "savebin_bare_64_bytes": 100,
+      "savebin_failure": "mailbox_before.bin has an unexpected length",
+      "benign_uptime_failure": "J-Link reported a failure",
+      "both_failures_reproduced": true
+    },
+    "updated_driver": {
+      "savebin_hex_semantics_verified": true,
+      "mailbox_count_bytes": 64,
+      "benign_uptime_jlink_sessions_verified": 3,
+      "benign_final_debug_release_verified": true,
+      "genuine_error_zero_exit_cases_verified": [
+        "Unknown command: WriteDP",
+        "Command WriteDP is not supported.",
+        "Command not supported: WriteDP",
+        "Syntax: WriteDP <RegIndex> <Data>",
+        "Cannot connect to target.",
+        "ERROR: Failed to read memory"
+      ]
+    }
+  }
 }

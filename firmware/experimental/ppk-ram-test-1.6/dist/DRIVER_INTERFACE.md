@@ -10,6 +10,10 @@ Java's unrelated `jlink.exe`. Explicit `-JLinkPath` also requires SEGGER identit
 Identity is read from the PE version resource or exact embedded Commander banner;
 candidates are not launched for detection. The selected full path is printed.
 
+SaveBin lengths are explicit hexadecimal (`0x40`, `0x08`, `0x04`), as required
+by Commander. A probe uptime capability notice is informational; unknown,
+unsupported, malformed or failed target operations remain fatal.
+
 Expected manifest, all filenames relative to the deliverable directory:
 
 ```json

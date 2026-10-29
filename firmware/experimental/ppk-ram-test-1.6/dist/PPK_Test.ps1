@@ -85,7 +85,9 @@ function Invoke-JLink([string]$Name, [string[]]$Commands) {
     # Commands contain only ASCII filenames. J-Link runs inside this run's log directory.
     [IO.File]::WriteAllLines((Join-Path $script:OutDir $commandFile), $Commands, [Text.Encoding]::ASCII)
     $output = Invoke-Tool $script:JLink @('-Device', 'NRF52832_XXAA', '-If', 'SWD', '-Speed', '1000', '-USB', $script:Probe, '-AutoConnect', '1', '-NoGui', '1', '-ExitOnError', '1', '-CommandFile', $commandFile) $Name 60
-    if ($output -match '(?im)(ERROR:|J-Link\s+ERROR|Failed to (connect|read|write|download|open)|Cannot (connect|read|write|open)|Could not (connect|read|write|open)|No emulators connected|Unknown command|Invalid command|Unsupported command|Syntax:|not supported)') {
+    # Probe capability information such as "J-Link uptime ... Not supported by
+    # this model" is not a failed command. Still reject unsupported operations.
+    if ($output -match '(?im)(ERROR:|J-Link\s+ERROR|Failed to (connect|read|write|download|open)|Cannot (connect|read|write|open)|Could not (connect|read|write|open)|No emulators connected|Unknown command|Invalid command|Unsupported command|Syntax:|\b(?:command|operation|function|feature|WriteDP|SaveBin|SWD|read|write)\b[^\r\n]*\bnot supported\b)') {
         throw ('J-Link reported a failure in ' + $Name + '. ' + $output.Trim())
     }
     return $output
@@ -274,7 +276,8 @@ try {
         exit 0
     }
 
-    $null = Invoke-JLink 'Read_startup_mailbox' @('Halt', 'SaveBin mailbox_before.bin, 0x2000FFC0, 64', 'SaveBin flags_before.bin, 0x2000536C, 8', 'SaveBin nvic_iser0.bin, 0xE000E100, 4', 'Go', 'Exit')
+    # SaveBin interprets its length as hexadecimal: decimal 64 must be 0x40.
+    $null = Invoke-JLink 'Read_startup_mailbox' @('Halt', 'SaveBin mailbox_before.bin, 0x2000FFC0, 0x40', 'SaveBin flags_before.bin, 0x2000536C, 0x08', 'SaveBin nvic_iser0.bin, 0xE000E100, 0x04', 'Go', 'Exit')
     $before = Read-Binary 'mailbox_before.bin' 64
     Assert-True ((U32 $before 60) -eq $BootStamp) 'The factory startup stamp is absent. The image did not reach normal startup; inspect LED error codes and do not trust a low current reading.'
     $iser = Read-Binary 'nvic_iser0.bin' 4
@@ -315,8 +318,8 @@ try {
     $commands = @('Halt', 'W4 0x2000FFC0, 0', 'W4 0x2000FFC8, 0', 'W4 0x2000FFE8, 0')
     for ($i = 0; $i -lt 6; $i++) { $commands += ('W1 0x{0:X8}, 0x{1:X2}' -f ($Mailbox + 32 + $i), $rtc[$i]) }
     $commands += @('W4 0x2000FFC4, 0xA6F01601', 'W4 0x2000FFC0, 0x31544B50', 'W4 0xE000E200, 0x00100000', 'Go', 'Sleep 1500', 'Halt',
-        'SaveBin mailbox_after.bin, 0x2000FFC0, 64', 'SaveBin flags_after.bin, 0x2000536C, 8',
-        'SaveBin delay_after.bin, 0x20005320, 4', 'Go', 'Exit')
+        'SaveBin mailbox_after.bin, 0x2000FFC0, 0x40', 'SaveBin flags_after.bin, 0x2000536C, 0x08',
+        'SaveBin delay_after.bin, 0x20005320, 0x04', 'Go', 'Exit')
     $null = Invoke-JLink 'Request_and_readback_factory_mode' $commands
     $after = Read-Binary 'mailbox_after.bin' 64
     $flags = Read-Binary 'flags_after.bin' 8

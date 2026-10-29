@@ -118,6 +118,15 @@ def execute(pwsh, index, name, args, scenario="", expected=0, needle=None,
         problems.append("non-flash operation wrote UICR, recovered or reset target")
     if result.returncode != 0 and list(folder.glob("logs/*/result.json")):
         problems.append("failed operation produced a success report")
+    for command in commands:
+        if command.lower().startswith('savebin '):
+            fields = command.replace(',', ' ').split()
+            address, count = int(fields[2], 16), int(fields[3], 16)
+            expected_count = 64 if fields[1].startswith('mailbox_') else (8 if fields[1].startswith('flags_') else 4)
+            if count != expected_count:
+                problems.append(f"SaveBin {fields[1]} requested {count} bytes instead of {expected_count}; J-Link uses hex")
+            if fields[1].startswith('mailbox_') and address + count > 0x20010000:
+                problems.append("mailbox dump crossed the end of nRF52832 RAM")
     if name in ("multiple_probes", "unexpected_uicr", "locked_flash") and programs:
         problems.append("unsafe condition did not prevent programming")
     if name == "recover_flash":
@@ -193,6 +202,12 @@ def main():
         ("invalid_rtc", [], "invalid_rtc", 1, "TEST FAILED:"),
         ("old_rtc", [], "old_rtc", 1, "not close to the PC time"),
         ("final_jlink_error", [], "jlink_error", 1, "J-Link reported a failure"),
+        ("benign_jlink_uptime_all_sessions", [], "jlink_benign_uptime", 0, "READY FOR PPK MEASUREMENT."),
+        ("unsupported_jlink_command", [], "jlink_unsupported_command", 1, "J-Link reported a failure"),
+        ("unsupported_jlink_command_prefix", [], "jlink_unsupported_command_prefix", 1, "J-Link reported a failure"),
+        ("jlink_syntax_error", [], "jlink_syntax_error", 1, "J-Link reported a failure"),
+        ("jlink_connect_failure", [], "jlink_connect_failure", 1, "J-Link reported a failure"),
+        ("jlink_explicit_error_line", [], "jlink_error_line", 1, "J-Link reported a failure"),
         ("invalid_recover", ["-Recover"], "", 1, "valid only with -Flash"),
         ("invalid_restore", ["-RestoreApproved"], "", 1, "requires -Flash"),
         ("invalid_check_flash", ["-CheckNormal", "-Flash"], "", 1, "cannot be combined"),
