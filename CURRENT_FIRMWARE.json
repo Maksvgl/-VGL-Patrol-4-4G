@@ -1,0 +1,47 @@
+{
+  "product": "VGL Patrol 4",
+  "version": "1.6",
+  "status": "current_owner_confirmed_working_firmware",
+  "confirmed_on": "2026-10-29",
+  "poll_interval_ms": 1400,
+  "rf_startup_delay_ms": 5,
+  "parameters_source": "Owner confirmation and supplied working package; not rebuilt from historical repository sources",
+  "softdevice": {
+    "name": "S132",
+    "version": "6.1.0",
+    "firmware_id": "0xAF"
+  },
+  "application_start_address": "0x26000",
+  "bootloader_start_address": "0x78000",
+  "release_directory": "firmware/releases/v1.6-1400ms-rf5ms",
+  "full_image": "firmware/releases/v1.6-1400ms-rf5ms/VGL_Patrol_1.6_1400ms_RF5ms_FULL_S132_BOOTLOADER.hex",
+  "flash_script": "firmware/releases/v1.6-1400ms-rf5ms/flash_VGL_Patrol_1.6_with_bootloader.bat",
+  "historical_source_matches_binary": false,
+  "files": [
+    {
+      "file": "VGL_Patrol_1.6_1400ms_RF5ms.bin",
+      "size_bytes": 82874,
+      "sha256": "8c6827f0eb0da3cd8c4b092e8368cb9e01746756d26b0aa6d44f2cf2b725c602"
+    },
+    {
+      "file": "VGL_Patrol_1.6_1400ms_RF5ms_FULL_S132_BOOTLOADER.hex",
+      "size_bytes": 671572,
+      "sha256": "7feae35a573f95cbc75a5cc83dfdf086ceed9f619afa0f101804f756451c11dc"
+    },
+    {
+      "file": "VGL_Patrol_bootloader_0x78000.hex",
+      "size_bytes": 29156,
+      "sha256": "b0a1aee4c6346521b113aa0cca73c36e8972f064cf078fbdc91e3d2871462539"
+    },
+    {
+      "file": "flash_VGL_Patrol_1.6_with_bootloader.bat",
+      "size_bytes": 808,
+      "sha256": "1ba2c1c7ca9b291edc8ae41b0c332c508395872267c6354c9b7c70551410824c"
+    },
+    {
+      "file": "s132_nrf52_6.1.0_licence-agreement.txt",
+      "size_bytes": 1952,
+      "sha256": "3b2f36666f0bb5be433047e3e58ff3cff10c3c1ececdbfad592361fd9a3cdcfd"
+    }
+  ]
+}
