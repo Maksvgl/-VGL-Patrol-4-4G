@@ -21,6 +21,10 @@ treat the probe's unsupported-uptime capability notice as a target-command
 failure. Invalid/unsupported operations still fail preparation. Firmware images
 remain unchanged by these host-only fixes.
 
+Debug release first halts and resumes the core, then clears DP power requests
+and exits. This avoids Commander 7.94e's `CPU is not halted` error when Go is
+issued on a core already resumed by the preceding session. No reset is added.
+
 ## Reproduction
 
 Install `requirements-build.txt` in an isolated Python environment. From this
@@ -69,7 +73,7 @@ alignment, preserved registers, reset clearing, normal path, success and RTC/
 state failure paths. Production peripheral routines are mocked at their verified
 entry addresses; these tests do not emulate the complete nRF/SoftDevice/board.
 
-Validation: 15/15 firmware tests and 47/47 host driver mock scenarios passed.
+Validation: 15/15 firmware tests and 51/51 host driver mock scenarios passed.
 The latter execute the actual PowerShell driver on PowerShell 7.4.13 / Linux,
 with fake Nordic/SEGGER executables. They do not establish Windows 5.1, real SWD
 or electrical behavior. See `validation_summary.json` and `host_tests/README.md`.

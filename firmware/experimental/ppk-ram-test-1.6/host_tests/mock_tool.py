@@ -16,7 +16,8 @@ if Path(sys.argv[0]).name.lower()=='jlink.exe':
   print('DLL version V9.20, compiled Oct 22 2026')
   print('J-Link Commander command line options: -Device -If -USB -CommandFile')
   sys.exit(0)
-s=json.loads(sp.read_text())if sp.exists()else {'uicr':0x78000,'memory':{},'firmware':'VGL_Patrol_1.6_PPK_RAM_TEST_FULL_S132_BOOTLOADER.hex'}
+s=json.loads(sp.read_text())if sp.exists()else {'uicr':0x78000,'memory':{},'firmware':'VGL_Patrol_1.6_PPK_RAM_TEST_FULL_S132_BOOTLOADER.hex','cpu_halted':False}
+s.setdefault('cpu_halted',False)
 mem=s['memory']
 def put(addr,data):
  for i,b in enumerate(data):mem[str(addr+i)]=b
@@ -24,6 +25,7 @@ def get(addr,n):return bytes(mem.get(str(addr+i),0)for i in range(n))
 def word(addr):return int.from_bytes(get(addr,4),'little')
 def pw(addr,v):put(addr,struct.pack('<I',v))
 def boot():
+ s['cpu_halted']=False
  put(0x2000ffc0,bytes(64));pw(0x2000fffc,0x31545046);put(0x2000536c,bytes(8));put(0x2000536f,bytes([1 if scenario=='normal_active'else 0]));pw(0x20005320,45875);pw(0xe000e100,0x100000)
  if scenario=='irq_disabled':pw(0xe000e100,0)
  if scenario=='missing_stamp':pw(0x2000fffc,0)
@@ -49,6 +51,10 @@ if Path(sys.argv[0]).name=='nrfjprog.exe':
  else:raise RuntimeError('Unexpected nrf args '+repr(args))
 else:
  script=Path(args[args.index('-CommandFile')+1]);lines=script.read_text().splitlines()
+ # J-Link sessions preserve the target's CPU state. A running target is not
+ # implicitly halted by opening the probe; Go on it produces a zero-exit error.
+ if scenario=='release_initially_halted' and 'Release_debug_power_FINAL' in script.name:s['cpu_halted']=True
+ if scenario=='cleanup_halted' and 'Release_debug_power_after_failure' in script.name:s['cpu_halted']=True
  if scenario=='jlink_error'and 'Release_debug_power_FINAL'in script.name:print('Unknown command: WriteDP');sys.exit(0)
  if scenario=='jlink_benign_uptime':
   print('SEGGER J-Link Commander V7.94e (Compiled Jan 15 2024 15:20:36)')
@@ -71,10 +77,15 @@ else:
   if op in ['w4','w1']:
    a=int(parts[1],0);v=int(parts[2],0);put(a,v.to_bytes(4 if op=='w4'else 1,'little'))
   elif op=='go':
+   if not s['cpu_halted']:
+    print('****** Error: CPU is not halted')
+    continue
+   s['cpu_halted']=False
    if word(0x2000ffc0)==0x31544b50 and word(0x2000ffc4)==0xa6f01601 and word(0xe000e200)&0x100000:
-    pw(0x2000ffc0,0);pw(0x2000ffcc,0);pw(0x2000ffd0,2 if scenario=='rtc_failure'else 0)
-    pw(0x2000ffc8,226 if scenario=='rtc_failure'else 2)
-    if scenario!='rtc_failure':
+    rtc_failure=scenario in ('rtc_failure','cleanup_running','cleanup_halted')
+    pw(0x2000ffc0,0);pw(0x2000ffcc,0);pw(0x2000ffd0,2 if rtc_failure else 0)
+    pw(0x2000ffc8,226 if rtc_failure else 2)
+    if not rtc_failure:
      put(0x2000ffd8,get(0x2000ffe0,6));pw(0x2000ffd4,45875);pw(0x2000ffe8,0xa6f01601);put(0x2000536f,bytes([1]));pw(0x20005320,45875)
      if scenario=='bad_cookie':pw(0x2000ffe8,0)
      if scenario=='wrong_ticks':pw(0x20005320,42)
@@ -90,7 +101,8 @@ else:
    address=int(parts[2],16);count=int(parts[3],16)
    Path(parts[1]).write_bytes(get(address,count))
    print('Reading %d bytes from addr 0x%08X into file...O.K.'%(count,address))
-  elif op in ['halt','sleep','exit','writedp','wait','connect','r']:pass
+  elif op=='halt':s['cpu_halted']=True
+  elif op in ['sleep','exit','writedp','wait','connect','r']:pass
   else:raise RuntimeError('Unexpected JLink command '+line)
  print('J-Link mock completed')
 sp.write_text(json.dumps(s))

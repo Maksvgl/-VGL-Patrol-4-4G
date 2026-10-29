@@ -192,7 +192,9 @@ function Validate-Package {
 
 function Release-DebugPower([string]$Name) {
     # This MUST be the final target access. Do not reconnect, reset or read after it.
-    $null = Invoke-JLink $Name @('Go', 'WriteDP 2, 0', 'WriteDP 1, 0', 'Exit')
+    # Earlier sessions resume the CPU. Commander 7.94e rejects Go on an already
+    # running core, so establish Halt before Go without resetting RAM or RTC.
+    $null = Invoke-JLink $Name @('Halt', 'Go', 'WriteDP 2, 0', 'WriteDP 1, 0', 'Exit')
     $script:Released = $true
 }
 

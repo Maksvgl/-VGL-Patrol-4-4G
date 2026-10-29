@@ -1,12 +1,12 @@
 {
-  "driver_sha256": "c5d79c2a427588553e05a423c083cb6587c5773bf06e5d759b31e9833146a35b",
+  "driver_sha256": "5984df1585eb1576ee041033e7dda6cb502d2b667068a4ba9b2022cad94698ff",
   "runtime": "PowerShell 7.4.13 Linux (official distribution)",
   "runtime_version": "7.4.13",
   "platform": "Linux-6.18.55-x86_64-with-glibc2.39",
   "hardware_access": false,
   "scope": "PowerShell 7 Linux host logic with Python executable mocks; does not prove Windows 5.1, SWD, RTC, firmware or electrical behavior",
-  "passed": 47,
-  "total": 47,
+  "passed": 51,
+  "total": 51,
   "results": [
     {
       "name": "validate_only",
@@ -24,7 +24,7 @@
       "expected_exit_code": 0,
       "issues": [],
       "tool_calls": 8,
-      "jlink_commands": 31
+      "jlink_commands": 32
     },
     {
       "name": "recover_flash",
@@ -33,7 +33,7 @@
       "expected_exit_code": 0,
       "issues": [],
       "tool_calls": 10,
-      "jlink_commands": 31
+      "jlink_commands": 32
     },
     {
       "name": "start",
@@ -42,7 +42,34 @@
       "expected_exit_code": 0,
       "issues": [],
       "tool_calls": 5,
-      "jlink_commands": 31
+      "jlink_commands": 32
+    },
+    {
+      "name": "release_initially_halted",
+      "passed": true,
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "issues": [],
+      "tool_calls": 5,
+      "jlink_commands": 32
+    },
+    {
+      "name": "cleanup_running",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 5,
+      "jlink_commands": 32
+    },
+    {
+      "name": "cleanup_halted",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 5,
+      "jlink_commands": 32
     },
     {
       "name": "check_normal_inactive",
@@ -51,7 +78,7 @@
       "expected_exit_code": 0,
       "issues": [],
       "tool_calls": 4,
-      "jlink_commands": 10
+      "jlink_commands": 11
     },
     {
       "name": "check_normal_active",
@@ -60,7 +87,7 @@
       "expected_exit_code": 0,
       "issues": [],
       "tool_calls": 4,
-      "jlink_commands": 10
+      "jlink_commands": 11
     },
     {
       "name": "restore",
@@ -69,7 +96,7 @@
       "expected_exit_code": 0,
       "issues": [],
       "tool_calls": 7,
-      "jlink_commands": 4
+      "jlink_commands": 5
     },
     {
       "name": "recover_restore",
@@ -78,7 +105,7 @@
       "expected_exit_code": 0,
       "issues": [],
       "tool_calls": 9,
-      "jlink_commands": 4
+      "jlink_commands": 5
     },
     {
       "name": "restore_replaced_after_boot",
@@ -105,7 +132,7 @@
       "expected_exit_code": 0,
       "issues": [],
       "tool_calls": 5,
-      "jlink_commands": 31
+      "jlink_commands": 32
     },
     {
       "name": "unexpected_uicr",
@@ -150,7 +177,7 @@
       "expected_exit_code": 1,
       "issues": [],
       "tool_calls": 5,
-      "jlink_commands": 31
+      "jlink_commands": 32
     },
     {
       "name": "disabled_irq",
@@ -159,7 +186,7 @@
       "expected_exit_code": 1,
       "issues": [],
       "tool_calls": 4,
-      "jlink_commands": 10
+      "jlink_commands": 11
     },
     {
       "name": "missing_stamp",
@@ -168,7 +195,7 @@
       "expected_exit_code": 1,
       "issues": [],
       "tool_calls": 4,
-      "jlink_commands": 10
+      "jlink_commands": 11
     },
     {
       "name": "stale_normal_mailbox",
@@ -177,7 +204,7 @@
       "expected_exit_code": 1,
       "issues": [],
       "tool_calls": 4,
-      "jlink_commands": 10
+      "jlink_commands": 11
     },
     {
       "name": "running_request",
@@ -186,7 +213,7 @@
       "expected_exit_code": 1,
       "issues": [],
       "tool_calls": 4,
-      "jlink_commands": 10
+      "jlink_commands": 11
     },
     {
       "name": "bad_cookie",
@@ -195,7 +222,7 @@
       "expected_exit_code": 1,
       "issues": [],
       "tool_calls": 5,
-      "jlink_commands": 31
+      "jlink_commands": 32
     },
     {
       "name": "wrong_ticks",
@@ -204,7 +231,7 @@
       "expected_exit_code": 1,
       "issues": [],
       "tool_calls": 5,
-      "jlink_commands": 31
+      "jlink_commands": 32
     },
     {
       "name": "inactive",
@@ -213,7 +240,7 @@
       "expected_exit_code": 1,
       "issues": [],
       "tool_calls": 5,
-      "jlink_commands": 31
+      "jlink_commands": 32
     },
     {
       "name": "coil",
@@ -222,7 +249,7 @@
       "expected_exit_code": 1,
       "issues": [],
       "tool_calls": 5,
-      "jlink_commands": 31
+      "jlink_commands": 32
     },
     {
       "name": "power_saving",
@@ -231,7 +258,7 @@
       "expected_exit_code": 1,
       "issues": [],
       "tool_calls": 5,
-      "jlink_commands": 31
+      "jlink_commands": 32
     },
     {
       "name": "invalid_rtc",
@@ -240,7 +267,7 @@
       "expected_exit_code": 1,
       "issues": [],
       "tool_calls": 5,
-      "jlink_commands": 31
+      "jlink_commands": 32
     },
     {
       "name": "old_rtc",
@@ -249,7 +276,7 @@
       "expected_exit_code": 1,
       "issues": [],
       "tool_calls": 5,
-      "jlink_commands": 31
+      "jlink_commands": 32
     },
     {
       "name": "final_jlink_error",
@@ -258,7 +285,7 @@
       "expected_exit_code": 1,
       "issues": [],
       "tool_calls": 6,
-      "jlink_commands": 31
+      "jlink_commands": 32
     },
     {
       "name": "benign_jlink_uptime_all_sessions",
@@ -267,7 +294,7 @@
       "expected_exit_code": 0,
       "issues": [],
       "tool_calls": 5,
-      "jlink_commands": 31
+      "jlink_commands": 32
     },
     {
       "name": "unsupported_jlink_command",
@@ -276,7 +303,7 @@
       "expected_exit_code": 1,
       "issues": [],
       "tool_calls": 6,
-      "jlink_commands": 31
+      "jlink_commands": 32
     },
     {
       "name": "unsupported_jlink_command_prefix",
@@ -285,7 +312,7 @@
       "expected_exit_code": 1,
       "issues": [],
       "tool_calls": 6,
-      "jlink_commands": 31
+      "jlink_commands": 32
     },
     {
       "name": "jlink_syntax_error",
@@ -294,7 +321,7 @@
       "expected_exit_code": 1,
       "issues": [],
       "tool_calls": 6,
-      "jlink_commands": 31
+      "jlink_commands": 32
     },
     {
       "name": "jlink_connect_failure",
@@ -303,7 +330,7 @@
       "expected_exit_code": 1,
       "issues": [],
       "tool_calls": 6,
-      "jlink_commands": 31
+      "jlink_commands": 32
     },
     {
       "name": "jlink_explicit_error_line",
@@ -312,7 +339,7 @@
       "expected_exit_code": 1,
       "issues": [],
       "tool_calls": 6,
-      "jlink_commands": 31
+      "jlink_commands": 32
     },
     {
       "name": "invalid_recover",
@@ -375,7 +402,7 @@
       "expected_exit_code": 0,
       "issues": [],
       "tool_calls": 10,
-      "jlink_commands": 31
+      "jlink_commands": 32
     },
     {
       "name": "java_then_segger_path",
@@ -384,7 +411,7 @@
       "expected_exit_code": 0,
       "issues": [],
       "tool_calls": 5,
-      "jlink_commands": 31
+      "jlink_commands": 32
     },
     {
       "name": "java_only_recover_blocked",
@@ -420,7 +447,7 @@
       "expected_exit_code": 0,
       "issues": [],
       "tool_calls": 5,
-      "jlink_commands": 31
+      "jlink_commands": 32
     },
     {
       "name": "explicit_missing_recover_blocked",
@@ -430,6 +457,15 @@
       "issues": [],
       "tool_calls": 0,
       "jlink_commands": 0
+    },
+    {
+      "name": "old_release_running_reproduction",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 6,
+      "jlink_commands": 35
     }
   ],
   "regression_evidence": {
@@ -451,6 +487,29 @@
         "Syntax: WriteDP <RegIndex> <Data>",
         "Cannot connect to target.",
         "ERROR: Failed to read memory"
+      ]
+    },
+    "running_cpu_release": {
+      "old_sequence": [
+        "Go",
+        "WriteDP 2, 0",
+        "WriteDP 1, 0",
+        "Exit"
+      ],
+      "old_reproduction": "Zero-exit ****** Error: CPU is not halted; old driver reports failure after RTC/activation checks",
+      "corrected_sequence": [
+        "Halt",
+        "Go",
+        "WriteDP 2, 0",
+        "WriteDP 1, 0",
+        "Exit"
+      ],
+      "scope": "Persistent mocked CPU halted/running state across sessions; real hardware not accessed",
+      "coverage": [
+        "normal running release",
+        "initially halted release",
+        "running cleanup",
+        "halted cleanup"
       ]
     }
   }

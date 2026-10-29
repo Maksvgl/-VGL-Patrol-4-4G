@@ -14,8 +14,8 @@ https://github.com/PowerShell/PowerShell/releases/download/v7.4.13/powershell-7.
 
 `results.json` records the driver SHA-256 and each result. Ignored `cases/` directories retain full console output, tool traces, simulated memory, and the driver's per-run logs.
 
-Current run: **47/47 passed**, including seven Java/SEGGER discovery regressions
-and six real-output classification regressions.
+Current run: **51/51 passed**, including seven Java/SEGGER discovery regressions,
+six real-output classification regressions, and CPU-state release coverage.
 
 Coverage includes package validation before tool access; ordinary and recover flashing; UICR checks/restoration and ordering; RAM-only start; normal-boot checks with inactive/active external settings; approved-firmware restoration and its post-boot verification; explicit probe selection; multiple probes; checksum and manifest path rejection; protected/unexpected configuration; absent startup stamp; disabled IRQ20; pending request; dirty startup mailbox; RTC failures; invalid/stale RTC readback; wrong cookies/ticks/activation/coil/power-saving flags; parsed J-Link error output with exit code zero; illegal option combinations; and final debug power-release ordering.
 
@@ -41,6 +41,16 @@ J-Link sessions, including the final debug power release. Zero-exit genuine
 errors are still rejected: Unknown command, both command-not-supported forms,
 Syntax, Cannot connect to target, and explicit ERROR. These observations are
 recorded under `regression_evidence` in `results.json`.
+
+The fake J-Link persists the CPU's running/halted state across sessions. `Halt`
+sets the halted state; `Go` on an already running target emits the exact
+zero-exit `****** Error: CPU is not halted` message and continues processing,
+matching the supplied J-Link 7.94e log. A regression with the old release
+sequence reproduces that driver failure after successful RTC/activation checks.
+The corrected driver is tested both with a running and an initially halted CPU,
+including cleanup after a failed preparation. Every executed final/cleanup
+release must issue exactly `Halt`, `Go`, `WriteDP 2, 0`, `WriteDP 1, 0`, `Exit`;
+cleanup must leave the mocked CPU running. No target/tool access may follow.
 
 The fake J-Link consumes a factory request only after the driver writes the IRQ20 pending bit. Successful flows must finish with `Go`, `WriteDP 2, 0`, `WriteDP 1, 0`, `Exit`, with no later tool access. Non-flash flows must not reset/recover/write UICR/program flash. Normal checks and approved restoration must not send a RAM factory request. Failed operations must not produce a success result file.
 

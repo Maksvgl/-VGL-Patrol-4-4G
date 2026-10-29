@@ -66,8 +66,10 @@ locked read fails with guidance to use the explicit recover workflow.
 
 All J-Link command files use ASCII relative output filenames in a unique run
 directory. Local register/RTC dumps contain no secret. The successful final
-target commands are `Go`, `WriteDP 2, 0`, `WriteDP 1, 0`, `Exit`; all later
+target commands are `Halt`, `Go`, `WriteDP 2, 0`, `WriteDP 1, 0`, `Exit`; all later
 operations are host-only reporting. Do not add a target read after that phase.
+The brief Halt makes Go valid even when an earlier session left the core running;
+it is not a reset and does not clear the volatile test state or RTC.
 
 The driver checks the 64-byte mailbox, status/cookie, read/write RTC return
 codes, RTC date, active/coil/power-saving RAM flags, and 45875-tick interval.

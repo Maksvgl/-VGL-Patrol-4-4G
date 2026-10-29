@@ -8,16 +8,19 @@
     "method": "Unicorn Thumb execution; production peripheral calls mocked at verified entry points"
   },
   "host_driver": {
-    "passed": 47,
-    "total": 47,
-    "driver_sha256": "c5d79c2a427588553e05a423c083cb6587c5773bf06e5d759b31e9833146a35b",
+    "passed": 51,
+    "total": 51,
+    "driver_sha256": "5984df1585eb1576ee041033e7dda6cb502d2b667068a4ba9b2022cad94698ff",
     "runtime": "PowerShell 7.4.13 Linux (official distribution)",
     "method": "Actual PowerShell driver with Python nrfjprog/J-Link fakes; no hardware access",
     "jlink_selection_regressions": 7,
     "windows_pe_metadata_validated": false,
     "savebin_hex_semantics_checked": true,
     "benign_probe_uptime_checked": true,
-    "unsupported_commands_still_rejected": true
+    "unsupported_commands_still_rejected": true,
+    "persistent_cpu_halt_state_checked": true,
+    "final_release_running_and_halted_checked": true,
+    "failure_cleanup_running_and_halted_checked": true
   },
   "preservation_checks": [
     "Approved BIN/FULL SHA-256 locked",
@@ -28,10 +31,19 @@
     "No added external settings writes"
   ],
   "remaining_validation": [
+    "Complete fixed Halt/Go/DP release on real J-Link Commander 7.94e",
     "Real Windows PowerShell/SEGGER/Nordic tool behavior",
-    "Boot and temporary activation on one known-good board",
     "RF polling pulses around 1.4 seconds on PPK",
     "Measured idle/average current against known-good reference",
     "Ordinary behavior after power cycle"
-  ]
+  ],
+  "hardware_observations": {
+    "source": "User-supplied Windows/J-Link Commander 7.94e FIX2 transcript",
+    "program_and_uicr_readback_completed": true,
+    "startup_and_factory_rtc_active_period_checks_completed": true,
+    "final_go_reported_cpu_not_halted": true,
+    "both_final_dp_zero_writes_logged": true,
+    "ready_message_completed": false,
+    "ppk_rf_current_graph_validated": false
+  }
 }

@@ -24,10 +24,10 @@ def sha(path):
 
 
 def execute(pwsh, index, name, args, scenario="", expected=0, needle=None,
-            corrupt=False, traversal=False, discovery=""):
+            corrupt=False, traversal=False, discovery="", driver_bytes=None):
     folder = CASE_ROOT / f"{index:02d} {name} with spaces"
     folder.mkdir(parents=True)
-    (folder / DRIVER.name).write_bytes(DRIVER_BYTES)
+    (folder / DRIVER.name).write_bytes(DRIVER_BYTES if driver_bytes is None else driver_bytes)
     for filename in (CANDIDATE, APPROVED):
         (folder / filename).write_text(":00000001FF\n", encoding="ascii")
     manifest = {"firmware_file": CANDIDATE, "files": [
@@ -80,6 +80,16 @@ def execute(pwsh, index, name, args, scenario="", expected=0, needle=None,
     events = [json.loads(line) for line in trace.read_text().splitlines()] if trace.exists() else []
     commands = [event["command"] for event in events if "command" in event]
     calls = [event for event in events if "tool" in event]
+    sessions = []
+    session = None
+    for event in events:
+        if "tool" in event:
+            session = None
+            if event['tool'].lower() == 'jlink.exe' and '-CommandFile' in event['args']:
+                session = {'name': event['args'][event['args'].index('-CommandFile') + 1], 'commands': []}
+                sessions.append(session)
+        elif 'command' in event and session is not None:
+            session['commands'].append(event['command'])
     problems = []
     if result.returncode != expected:
         problems.append(f"exit {result.returncode}, expected {expected}")
@@ -107,6 +117,19 @@ def execute(pwsh, index, name, args, scenario="", expected=0, needle=None,
         reports = list(folder.glob("logs/*/result.json"))
         if len(reports) != 1 or not json.loads(reports[0].read_text()).get("success"):
             problems.append("successful operation did not produce successful result.json")
+    if name != 'old_release_running_reproduction':
+        for session in sessions:
+            if session['name'].startswith('Release_debug_power') and session['commands']:
+                if session['commands'] != ['Halt', 'Go', 'WriteDP 2, 0', 'WriteDP 1, 0', 'Exit']:
+                    problems.append('final/cleanup release must Halt, Go, clear DP, then Exit without later access')
+    if name.startswith('cleanup_'):
+        cleanup = [session for session in sessions if session['name'].startswith('Release_debug_power_after_failure')]
+        if len(cleanup) != 1 or cleanup[0]['commands'] != ['Halt', 'Go', 'WriteDP 2, 0', 'WriteDP 1, 0', 'Exit']:
+            problems.append('failure did not complete Halt/Go debug release')
+        if not events or events[-1] != {'command': 'Exit'}:
+            problems.append('target/tool access occurred after failure cleanup')
+        if state.exists() and json.loads(state.read_text()).get('cpu_halted'):
+            problems.append('cleanup left the target CPU halted')
     programs = [call for call in calls if "--program" in call["args"]]
     recovers = [call for call in calls if "--recover" in call["args"]]
     if bool(recovers) != ("-Recover" in args and result.returncode == 0):
@@ -178,6 +201,9 @@ def main():
         ("flash", ["-Flash"], "", 0, "READY FOR PPK MEASUREMENT."),
         ("recover_flash", ["-Flash", "-Recover"], "", 0, "READY FOR PPK MEASUREMENT."),
         ("start", [], "", 0, "READY FOR PPK MEASUREMENT."),
+        ("release_initially_halted", [], "release_initially_halted", 0, "READY FOR PPK MEASUREMENT."),
+        ("cleanup_running", [], "cleanup_running", 1, "RTC read/validity failed"),
+        ("cleanup_halted", [], "cleanup_halted", 1, "RTC read/validity failed"),
         ("check_normal_inactive", ["-CheckNormal"], "", 0, "NORMAL_BOOT_CONFIRMED."),
         ("check_normal_active", ["-CheckNormal"], "normal_active", 0, "normal activation flag: 1"),
         ("restore", ["-Flash", "-RestoreApproved"], "", 0, "APPROVED_1_6_RESTORED."),
@@ -230,13 +256,30 @@ def main():
     for name, args, discovery, expected, needle in discovery_cases:
         results.append(execute(pwsh, len(results) + 1, name, args, discovery=discovery,
                                expected=expected, needle=needle))
+    # Reproduce the distributed release sequence's Go-on-running failure.
+    old_release_bytes = DRIVER_BYTES.replace(
+        b"@('Halt', 'Go', 'WriteDP 2, 0', 'WriteDP 1, 0', 'Exit')",
+        b"@('Go', 'WriteDP 2, 0', 'WriteDP 1, 0', 'Exit')", 1)
+    if old_release_bytes == DRIVER_BYTES:
+        raise AssertionError('The current release sequence must start with Halt before Go')
+    results.append(execute(pwsh, len(results) + 1, 'old_release_running_reproduction', [],
+                           expected=1, needle='CPU is not halted', driver_bytes=old_release_bytes))
     runtime_version = subprocess.run([str(pwsh), "-NoProfile", "-Command", "$PSVersionTable.PSVersion.ToString()"], capture_output=True, text=True, check=True).stdout.strip()
-    summary = {"driver_sha256": hashlib.sha256(DRIVER_BYTES).hexdigest(), "runtime": str(pwsh),
-               "runtime_version": runtime_version, "platform": platform.platform(), "case_root": str(CASE_ROOT),
+    old_evidence = json.loads((ROOT / 'results.json').read_text()).get('regression_evidence', {})
+    old_evidence['running_cpu_release'] = {
+        'old_sequence': ['Go', 'WriteDP 2, 0', 'WriteDP 1, 0', 'Exit'],
+        'old_reproduction': 'Zero-exit ****** Error: CPU is not halted; old driver reports failure after RTC/activation checks',
+        'corrected_sequence': ['Halt', 'Go', 'WriteDP 2, 0', 'WriteDP 1, 0', 'Exit'],
+        'scope': 'Persistent mocked CPU halted/running state across sessions; real hardware not accessed',
+        'coverage': ['normal running release', 'initially halted release', 'running cleanup', 'halted cleanup']}
+    for result in results:
+        result.pop('output', None)
+    summary = {"driver_sha256": hashlib.sha256(DRIVER_BYTES).hexdigest(), "runtime": 'PowerShell '+runtime_version+' Linux (official distribution)',
+               "runtime_version": runtime_version, "platform": platform.platform(),
                "hardware_access": False,
                "scope": "PowerShell 7 Linux host logic with Python executable mocks; does not prove Windows 5.1, SWD, RTC, firmware or electrical behavior",
                "passed": sum(result["passed"] for result in results), "total": len(results),
-               "results": results}
+               "results": results, 'regression_evidence': old_evidence}
     (ROOT / "results.json").write_text(json.dumps(summary, indent=2) + "\n")
     for result in results:
         print(("PASS " if result["passed"] else "FAIL ") + result["name"] +
