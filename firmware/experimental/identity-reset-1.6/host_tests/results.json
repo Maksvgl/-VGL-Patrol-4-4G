@@ -1,0 +1,442 @@
+{
+  "driver_sha256": "e35ff16002dac42fccfc1c71cbf81e84b3afe97f93ec2ab91668e46eeddce4cf",
+  "runtime": "PowerShell 7.4.13 Linux",
+  "hardware_access": false,
+  "scope": "Actual PowerShell host logic with fake Nordic/SEGGER executables; no Windows or electrical proof",
+  "passed": 48,
+  "total": 48,
+  "results": [
+    {
+      "name": "validate_only",
+      "passed": true,
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "issues": [],
+      "tool_calls": 0,
+      "jlink_commands": 0
+    },
+    {
+      "name": "reset_old_identity",
+      "passed": true,
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "issues": [],
+      "tool_calls": 17,
+      "jlink_commands": 31
+    },
+    {
+      "name": "release_initially_halted",
+      "passed": true,
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "issues": [],
+      "tool_calls": 17,
+      "jlink_commands": 31
+    },
+    {
+      "name": "bounded_busy_then_complete",
+      "passed": true,
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "issues": [],
+      "tool_calls": 18,
+      "jlink_commands": 39
+    },
+    {
+      "name": "explicit_probe",
+      "passed": true,
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "issues": [],
+      "tool_calls": 17,
+      "jlink_commands": 31
+    },
+    {
+      "name": "multiple_probes",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 1,
+      "jlink_commands": 0
+    },
+    {
+      "name": "invalid_probe",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 1,
+      "jlink_commands": 0
+    },
+    {
+      "name": "recover_failure",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 2,
+      "jlink_commands": 0
+    },
+    {
+      "name": "unexpected_uicr",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 3,
+      "jlink_commands": 0
+    },
+    {
+      "name": "uicr_write_failure",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 5,
+      "jlink_commands": 0
+    },
+    {
+      "name": "service_replaced_after_boot",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 8,
+      "jlink_commands": 0
+    },
+    {
+      "name": "missing_stamp",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 10,
+      "jlink_commands": 11
+    },
+    {
+      "name": "disabled_irq",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 10,
+      "jlink_commands": 11
+    },
+    {
+      "name": "stale_request",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 10,
+      "jlink_commands": 11
+    },
+    {
+      "name": "busy_startup",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 10,
+      "jlink_commands": 11
+    },
+    {
+      "name": "flash_write",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 11,
+      "jlink_commands": 22
+    },
+    {
+      "name": "flash_read",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 11,
+      "jlink_commands": 22
+    },
+    {
+      "name": "mismatch",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 11,
+      "jlink_commands": 22
+    },
+    {
+      "name": "coil",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 11,
+      "jlink_commands": 22
+    },
+    {
+      "name": "powersave",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 11,
+      "jlink_commands": 22
+    },
+    {
+      "name": "busy_timeout",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 15,
+      "jlink_commands": 54
+    },
+    {
+      "name": "not_processed",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 11,
+      "jlink_commands": 22
+    },
+    {
+      "name": "bad_ack",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 11,
+      "jlink_commands": 22
+    },
+    {
+      "name": "bad_length",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 11,
+      "jlink_commands": 22
+    },
+    {
+      "name": "bad_return",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 11,
+      "jlink_commands": 22
+    },
+    {
+      "name": "bad_request_consumed",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 11,
+      "jlink_commands": 22
+    },
+    {
+      "name": "changed_stamp",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 11,
+      "jlink_commands": 22
+    },
+    {
+      "name": "bad_readback",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 12,
+      "jlink_commands": 26
+    },
+    {
+      "name": "bad_readback_secret",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 12,
+      "jlink_commands": 26
+    },
+    {
+      "name": "ordinary_program_fail",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 13,
+      "jlink_commands": 26
+    },
+    {
+      "name": "ordinary_replaced",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 16,
+      "jlink_commands": 26
+    },
+    {
+      "name": "ordinary_active",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 17,
+      "jlink_commands": 31
+    },
+    {
+      "name": "ordinary_secret",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 17,
+      "jlink_commands": 31
+    },
+    {
+      "name": "ordinary_coil",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 17,
+      "jlink_commands": 31
+    },
+    {
+      "name": "jlink_unknown",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 18,
+      "jlink_commands": 31
+    },
+    {
+      "name": "jlink_unsupported",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 18,
+      "jlink_commands": 31
+    },
+    {
+      "name": "jlink_syntax",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 18,
+      "jlink_commands": 31
+    },
+    {
+      "name": "jlink_connect",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 18,
+      "jlink_commands": 31
+    },
+    {
+      "name": "bad_checksum",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 0,
+      "jlink_commands": 0
+    },
+    {
+      "name": "unsafe_manifest",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 0,
+      "jlink_commands": 0
+    },
+    {
+      "name": "wrong_ordinary_image",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 0,
+      "jlink_commands": 0
+    },
+    {
+      "name": "java_first_segger_installed",
+      "passed": true,
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "issues": [],
+      "tool_calls": 17,
+      "jlink_commands": 31
+    },
+    {
+      "name": "java_first_segger_second_path",
+      "passed": true,
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "issues": [],
+      "tool_calls": 17,
+      "jlink_commands": 31
+    },
+    {
+      "name": "java_only_blocked_before_recover",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 0,
+      "jlink_commands": 0
+    },
+    {
+      "name": "missing_segger_blocked_before_recover",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 0,
+      "jlink_commands": 0
+    },
+    {
+      "name": "explicit_java_blocked",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 0,
+      "jlink_commands": 0
+    },
+    {
+      "name": "explicit_segger",
+      "passed": true,
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "issues": [],
+      "tool_calls": 17,
+      "jlink_commands": 31
+    },
+    {
+      "name": "explicit_missing",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 0,
+      "jlink_commands": 0
+    }
+  ]
+}

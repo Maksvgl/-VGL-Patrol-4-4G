@@ -1,0 +1,49 @@
+{
+  "status": "experimental_requires_first_board_validation",
+  "hardware_validated": false,
+  "firmware_tests": {
+    "passed": 19,
+    "total": 19,
+    "method": "Emitted Thumb code in Unicorn; production peripheral calls mocked at hash-verified entries"
+  },
+  "host_tests": {
+    "passed": 48,
+    "total": 48,
+    "driver_sha256": "e35ff16002dac42fccfc1c71cbf81e84b3afe97f93ec2ab91668e46eeddce4cf",
+    "runtime": "PowerShell 7.4.13 Linux with Python Nordic/J-Link executable mocks; no hardware access"
+  },
+  "independent_review": {
+    "emitted_thumb_abi_verified": true,
+    "basepri_restore_and_application_irq_protection_reviewed": true,
+    "service_extension_within_ordinary_final_flash_page": true,
+    "checked_external_sector_rmw_and_fresh_readback_reviewed": true
+  },
+  "reset_scope": {
+    "w25q_start": 4,
+    "length": 23,
+    "defaults_hex": "0030303030303030303030303030303030303030303030",
+    "clears": [
+      "persistent activation",
+      "16-character secret",
+      "6-character serial"
+    ],
+    "preserves": [
+      "event history",
+      "event counters",
+      "other external memory data"
+    ],
+    "final_image": "exact owner-approved ordinary 1.6 FULL S132 and bootloader",
+    "final_firmware_sha256": "7feae35a573f95cbc75a5cc83dfdf086ceed9f619afa0f101804f756451c11dc"
+  },
+  "remaining_hardware_validation": [
+    "First known-good board persistent reset through full BAT",
+    "Power-cycle identity remains unconfigured in ordinary station program",
+    "Inactive RFID behavior on battery away from station",
+    "Actual W25Q/SPI timing and interrupt behavior"
+  ],
+  "limitations": [
+    "Existing W25Q writer can hang on a physical write failure; host timeout does not declare success",
+    "Whole-chip/event-history erasure is not performed",
+    "Firmware and host emulation do not reproduce all MCU/peripheral electrical behavior"
+  ]
+}

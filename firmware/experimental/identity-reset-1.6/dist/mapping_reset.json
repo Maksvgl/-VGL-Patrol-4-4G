@@ -1,0 +1,95 @@
+{
+  "baseline_sha256": "8c6827f0eb0da3cd8c4b092e8368cb9e01746756d26b0aa6d44f2cf2b725c602",
+  "archived_elf_sha256": "34ae44a6a071fcf6a8af5aefb1e7ec4836df8884172acdab2393e86b72e17a60",
+  "functions": {
+    "idle": {
+      "address": "0x28158",
+      "size": 8,
+      "sha256": "aafe07560eeaf57109bbab24192f662cb86e432fb5d168da9c24fc8ca4baff8a",
+      "matches_archived_elf": true
+    },
+    "write_settings_bytes": {
+      "address": "0x28b5e",
+      "size": 298,
+      "sha256": "def6cba41c338eb909225d650d711035c043594a5a7fc6f86820be179e34aee6",
+      "matches_archived_elf": true
+    },
+    "read_settings_bytes": {
+      "address": "0x2675c",
+      "size": 90,
+      "sha256": "409a0111f13fd3051fe2c977b2bfe80945cadac33f5065406a1425790016fe45",
+      "matches_archived_elf": true
+    },
+    "gpio_event_disable": {
+      "address": "0x2e752",
+      "size": 58,
+      "sha256": "3c790b21f4811cc4f77d7f87daa2305a4e2f71f0f7522a972327930122131c9a",
+      "matches_archived_elf": true
+    },
+    "app_timer_stop": {
+      "address": "0x2b86a",
+      "size": 46,
+      "sha256": "1b6b397439e0373b26a9529fc708a5f33c282971258329b4eb4ecb60dbb9c069",
+      "matches_archived_elf": true
+    },
+    "rf_sleep": {
+      "address": "0x2cc02",
+      "size": 12,
+      "sha256": "065848eaf7e9dec1d1a86471e5de7732236f7f0025eaf6fdd9ad40998476d07b",
+      "matches_archived_elf": true
+    },
+    "app_timer_init_irq_priority": {
+      "address": "0x2b790",
+      "size": 76,
+      "sha256": "fa32fc3a2427e7963c67dec28112890ac7c1f5313f1d2148ba0900624df83f6f",
+      "matches_archived_elf": true
+    },
+    "gpiote_init_irq_priority": {
+      "address": "0x2e564",
+      "size": 124,
+      "sha256": "f34d40b1c9738630f347f2597e7e0839990f53e00bcb4fe8f2511f9f532c3fb6",
+      "matches_archived_elf": true
+    }
+  },
+  "ram": {
+    "isActivated": "0x2000536f",
+    "device_secret": "0x20002a88",
+    "device_serial": "0x20002a98",
+    "mfrc522_timer_data": "0x20005168",
+    "readDelay_timer_data": "0x200051a8",
+    "mailbox": "0x2000ffc0..0x2000ffff"
+  },
+  "external_settings": {
+    "activation": {
+      "address": 4,
+      "size": 1,
+      "default_hex": "00"
+    },
+    "secret": {
+      "address": 5,
+      "size": 16,
+      "default": "16 ASCII zero characters"
+    },
+    "serial": {
+      "address": 21,
+      "size": 6,
+      "default": "6 ASCII zero characters"
+    },
+    "write_range": "4..26 inclusive only",
+    "first_boot_marker_not_modified": true,
+    "firmware_update_marker_not_modified": true,
+    "event_records_and_counters_not_modified": true,
+    "eeprom_rtc_not_written": true
+  },
+  "irq_proof": {
+    "app_timer_init": "exact production function configures SWI0 IRQ20 priority6",
+    "nrfx_gpiote_init": "exact production function configures GPIOTE IRQ6 priority6",
+    "spi": "main.c and matching nrfx_spi_init call use NULL completion handler (polling)",
+    "critical_section": "BASEPRI_MAX 0xC0 masks application priorities6/7; higher SoftDevice priorities0/1/4 remain unmasked; stricter incoming BASEPRI preserved and restored"
+  },
+  "vendor_limitations": [
+    "W25Q_CheckSector failure path can leave CS asserted and may hang vendor retry; host timeout is fatal, never success",
+    "w25q128_read_buf always returns0; exact fresh readback content comparison is mandatory"
+  ],
+  "hardware_validated": false
+}

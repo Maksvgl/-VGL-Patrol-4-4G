@@ -1,0 +1,42 @@
+{
+  "kind": "one_shot_identity_reset_service",
+  "production_version": "1.6",
+  "production_baseline_sha256": "8c6827f0eb0da3cd8c4b092e8368cb9e01746756d26b0aa6d44f2cf2b725c602",
+  "full_baseline_sha256": "7feae35a573f95cbc75a5cc83dfdf086ceed9f619afa0f101804f756451c11dc",
+  "application_base": "0x26000",
+  "startup_extension": "0x3a400",
+  "idle_extension": "0x3a500",
+  "extension_bytes": 552,
+  "mailbox": "0x2000ffc0",
+  "mailbox_size": 64,
+  "request_magic": "0x31525346",
+  "request_cookie": "0xa6f01602",
+  "bootstamp": "0x31525342",
+  "external_settings_address": 4,
+  "external_settings_size": 23,
+  "default_settings_hex": "0030303030303030303030303030303030303030303030",
+  "settings_write_entry": "0x28b5e",
+  "settings_read_entry": "0x2675c",
+  "critical_section": "save BASEPRI; BASEPRI_MAX 0xC0; DSB/ISB; restore on all paths",
+  "restore_erases_entire_service_sector": true,
+  "original_bytes_changed": 8,
+  "patches": [
+    {
+      "address": "0x292bc",
+      "before": "fff730fd",
+      "after": "11f0a0f8"
+    },
+    {
+      "address": "0x292c0",
+      "before": "fef74aff",
+      "after": "11f01ef9"
+    }
+  ],
+  "normal_boot": "service startup clears mailbox, suppresses RF/shock/coil; no persistent reset without explicit SWD cookie/magic",
+  "external_settings_writes_added": true,
+  "external_write_scope": "W25Q offsets 4..26 only; existing checked sector RMW preserves neighbors",
+  "external_settings_verified_by_fresh_readback": true,
+  "writes_added_to_eeprom_or_rtc": false,
+  "uicr_records_added": false,
+  "hardware_validated": false
+}

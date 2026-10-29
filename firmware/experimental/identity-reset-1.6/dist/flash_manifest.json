@@ -1,0 +1,100 @@
+{
+  "package": "VGL Patrol 1.6 persistent identity reset",
+  "status": "experimental_requires_first_board_validation",
+  "hardware_validated": false,
+  "firmware_file": "VGL_Patrol_1.6_IDENTITY_RESET_SERVICE_FULL_S132_BOOTLOADER.hex",
+  "approved_restore_file": "VGL_Patrol_1.6_1400ms_RF5ms_FULL_S132_BOOTLOADER.hex",
+  "reset_scope": "activation byte and 22 ASCII-zero secret/serial bytes; other external data retained",
+  "files": [
+    {
+      "file": "DRIVER_INTERFACE.md",
+      "size_bytes": 2342,
+      "sha256": "3420296c54a49f48b6b101fedaddb9263c0769d33655bb4169ec12ed23752d0c"
+    },
+    {
+      "file": "README_RU.md",
+      "size_bytes": 5116,
+      "sha256": "dc02dc4ad7c2804354be64a05c001077b2ada313860c0f5184d912d76e22d321"
+    },
+    {
+      "file": "RESET_IDENTITY_AND_RESTORE_1_6.bat",
+      "size_bytes": 529,
+      "sha256": "308be2d32800ba87fdad3d2eb2a520020cae71a0f389a48c9b0dc53f69ebd9a0"
+    },
+    {
+      "file": "Reset_Identity.ps1",
+      "size_bytes": 19142,
+      "sha256": "e35ff16002dac42fccfc1c71cbf81e84b3afe97f93ec2ab91668e46eeddce4cf"
+    },
+    {
+      "file": "SHA256SUMS",
+      "size_bytes": 1614,
+      "sha256": "a40e123e085b8d3357007d860e594ae4c8bade52489df8f6517dc917623c5c76"
+    },
+    {
+      "file": "TECHNICAL.md",
+      "size_bytes": 3070,
+      "sha256": "80e1ab9a9739ddaaea000cc64042c08cd9e7fdd2ac2d614671d12abd66fcbb84"
+    },
+    {
+      "file": "VGL_Patrol_1.6_1400ms_RF5ms.bin",
+      "size_bytes": 82874,
+      "sha256": "8c6827f0eb0da3cd8c4b092e8368cb9e01746756d26b0aa6d44f2cf2b725c602"
+    },
+    {
+      "file": "VGL_Patrol_1.6_1400ms_RF5ms_FULL_S132_BOOTLOADER.hex",
+      "size_bytes": 671572,
+      "sha256": "7feae35a573f95cbc75a5cc83dfdf086ceed9f619afa0f101804f756451c11dc"
+    },
+    {
+      "file": "VGL_Patrol_1.6_IDENTITY_RESET_SERVICE.bin",
+      "size_bytes": 83496,
+      "sha256": "e73f9b7138d967ab6dfe728c3b6ac34cbc1fd3a6fd9f25d270e1062f7d728a07"
+    },
+    {
+      "file": "VGL_Patrol_1.6_IDENTITY_RESET_SERVICE_APP.hex",
+      "size_bytes": 234593,
+      "sha256": "362fe1b1a1d63721cb718725559cd1d83fd966f248d5092b4ea81f5a4a7aa5df"
+    },
+    {
+      "file": "VGL_Patrol_1.6_IDENTITY_RESET_SERVICE_FULL_S132_BOOTLOADER.hex",
+      "size_bytes": 688476,
+      "sha256": "d66bd425d7996e9aee8bcdd9699928b7aa9d34fa2d319c687910aec384e2fd7a"
+    },
+    {
+      "file": "build_report.json",
+      "size_bytes": 1568,
+      "sha256": "d8b376199d82dcd1bc25177d33d9a9c71c13e28cb4463aedf6eaf3c62711c8cc"
+    },
+    {
+      "file": "mapping_reset.json",
+      "size_bytes": 3327,
+      "sha256": "e55581ca3cf1e166efbec1ac972ff61c051c7699d57e90cbdc4d87a8a7f94290"
+    },
+    {
+      "file": "reset_extension.disasm.txt",
+      "size_bytes": 7667,
+      "sha256": "5ebea5118f0c92b81a044f9b6f55a342afee513b4d9da50e27faeec50ac619d6"
+    },
+    {
+      "file": "reset_idle.S",
+      "size_bytes": 2645,
+      "sha256": "a6eaa2e174f7187edf644b67fbc4948f0627ce9babb70caae8bbe42457372ba3"
+    },
+    {
+      "file": "reset_startup.S",
+      "size_bytes": 990,
+      "sha256": "643d0b94a301657df3fd7d963de59f17102c609d7e8835ed2a61ff2927988933"
+    },
+    {
+      "file": "s132_nrf52_6.1.0_licence-agreement.txt",
+      "size_bytes": 1952,
+      "sha256": "3b2f36666f0bb5be433047e3e58ff3cff10c3c1ececdbfad592361fd9a3cdcfd"
+    },
+    {
+      "file": "validation_summary.json",
+      "size_bytes": 1883,
+      "sha256": "811a1764200ce78184ce993c594747a89e89e138e35bb19f8827cdc5429f342b"
+    }
+  ]
+}
