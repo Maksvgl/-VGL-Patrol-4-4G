@@ -1,0 +1,32 @@
+{
+  "status": "experimental_requires_first_board_validation",
+  "hardware_validated": false,
+  "windows_hardware_validated": false,
+  "firmware_emulation": {
+    "passed": 15,
+    "total": 15,
+    "method": "Unicorn Thumb execution; production peripheral calls mocked at verified entry points"
+  },
+  "host_driver": {
+    "passed": 34,
+    "total": 34,
+    "driver_sha256": "dbebbd998f9e16f49d2ba6e9e9c30f8bafbf0b56affa0ade880dc601fdcc01d0",
+    "runtime": "PowerShell 7.4.13 Linux (official distribution)",
+    "method": "Actual PowerShell driver with Python nrfjprog/J-Link fakes; no hardware access"
+  },
+  "preservation_checks": [
+    "Approved BIN/FULL SHA-256 locked",
+    "Exactly two original BL instructions changed (8 bytes)",
+    "Existing application patches retained",
+    "SoftDevice and bootloader memory bytes unchanged",
+    "No UICR records added to FULL HEX",
+    "No added external settings writes"
+  ],
+  "remaining_validation": [
+    "Real Windows PowerShell/SEGGER/Nordic tool behavior",
+    "Boot and temporary activation on one known-good board",
+    "RF polling pulses around 1.4 seconds on PPK",
+    "Measured idle/average current against known-good reference",
+    "Ordinary behavior after power cycle"
+  ]
+}

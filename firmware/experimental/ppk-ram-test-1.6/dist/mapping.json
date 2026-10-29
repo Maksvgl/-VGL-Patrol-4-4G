@@ -1,0 +1,227 @@
+{
+  "baseline_sha256": "8c6827f0eb0da3cd8c4b092e8368cb9e01746756d26b0aa6d44f2cf2b725c602",
+  "baseline_size": 82874,
+  "application_base": "0x26000",
+  "functions": {
+    "idle_state_handle": {
+      "address": "0x28158",
+      "thumb_address": "0x28159",
+      "size": 8,
+      "sha256": "aafe07560eeaf57109bbab24192f662cb86e432fb5d168da9c24fc8ca4baff8a",
+      "matches_old_elf": true,
+      "prefix_hex": "80b505f01fff01bd"
+    },
+    "restartReaderTimer": {
+      "address": "0x28d20",
+      "thumb_address": "0x28d21",
+      "size": 52,
+      "sha256": "22cafc303389fb671638f2d8deffef528dcb24e5c08c7e5fe773a83cebdac2c6",
+      "matches_old_elf": true,
+      "prefix_hex": "80b503f06effb5480078012808d0dff8"
+    },
+    "writeClock": {
+      "address": "0x267fa",
+      "thumb_address": "0x267fb",
+      "size": 460,
+      "sha256": "3fb503750de78d3ebaf6a9b7bcfa1d22c2d04e1e8c3f4c48c2fbea220fc5698c",
+      "matches_old_elf": true,
+      "prefix_hex": "2de9ff4f83b0109c119d00269df80c00"
+    },
+    "readClock": {
+      "address": "0x26a72",
+      "thumb_address": "0x26a73",
+      "size": 364,
+      "sha256": "ba5cf1a162e83dab939c00711eda49921f04b39e8a3bd3fb778e6763dbba8618",
+      "matches_old_elf": true,
+      "prefix_hex": "2de9f34f83b014001d000e9e0f9f5ff0"
+    },
+    "settingsRead": {
+      "address": "0x28c88",
+      "thumb_address": "0x28c89",
+      "size": 42,
+      "sha256": "4865325a251499f16a575b2f9124aef2f921d5d6a258492141a25677c073885a",
+      "matches_old_elf": true,
+      "prefix_hex": "80b501220421dff86806fdf763fd1022"
+    },
+    "settingsCommit": {
+      "address": "0x28cb8",
+      "thumb_address": "0x28cb9",
+      "size": 42,
+      "sha256": "ff2f014bb2423c3ef055ae71e8fece991c4ed4ee3f9c07c46b640afec88b5cf4",
+      "matches_old_elf": true,
+      "prefix_hex": "80b50122dff838160420fff74cff1022"
+    },
+    "app_timer_start": {
+      "address": "0x2b81a",
+      "thumb_address": "0x2b81b",
+      "size": 80,
+      "sha256": "66789b340baefaf22cdbac154137bea7cd0b54bd8710674d9a6d38eb5c16655f",
+      "matches_old_elf": true,
+      "prefix_hex": "2de9f04104000d001600270034488078"
+    },
+    "app_timer_stop": {
+      "address": "0x2b86a",
+      "thumb_address": "0x2b86b",
+      "size": 46,
+      "sha256": "1b6b397439e0373b26a9529fc708a5f33c282971258329b4eb4ecb60dbb9c069",
+      "matches_old_elf": true,
+      "prefix_hex": "38b50400250021488078002801d10820"
+    },
+    "MFRC522_Sleep": {
+      "address": "0x2cc02",
+      "thumb_address": "0x2cc03",
+      "size": 12,
+      "sha256": "065848eaf7e9dec1d1a86471e5de7732236f7f0025eaf6fdd9ad40998476d07b",
+      "matches_old_elf": true,
+      "prefix_hex": "80b510210120fff7d4fa01bd"
+    },
+    "nrf_pwr_mgmt_run": {
+      "address": "0x2df9c",
+      "thumb_address": "0x2df9d",
+      "size": 26,
+      "sha256": "b6ffbaf959a6de0cfe75b68f9c0407742462a98fe29f220a5afaafd9f98328ee",
+      "matches_old_elf": true,
+      "prefix_hex": "80b5fff7d9fffff7d3fc002801d041df"
+    }
+  },
+  "ram": {
+    "isActivated": "0x2000536f",
+    "isOnCoilNow": "0x2000536c",
+    "isPowerSavingModeEnabled": "0x20005370",
+    "currentMFRC522Delay": "0x20005320",
+    "device_serial": "0x20002a98",
+    "heap_end": "0x20009388",
+    "existing_1_6_helper_extra_ram": "0x20009388..0x200093a7",
+    "candidate_factory_mailbox": "0x2000fff0"
+  },
+  "hook_sites": {
+    "0x292bc": {
+      "expected_bytes": "fff730fd",
+      "instruction": [
+        [
+          "bl",
+          "#0x28d20"
+        ]
+      ]
+    },
+    "0x292c0": {
+      "expected_bytes": "fef74aff",
+      "instruction": [
+        [
+          "bl",
+          "#0x28158"
+        ]
+      ]
+    }
+  },
+  "rfid_interval_ticks": 45875,
+  "factory_mailbox_audit": {
+    "proposed_start": "0x2000ffc0",
+    "proposed_size": 64,
+    "last_address": "0x2000ffff",
+    "elf_declared_ram_start": "0x200029e0",
+    "elf_declared_ram_end": "0x2000ffff",
+    "elf_stack_start": "0x20005388",
+    "elf_stack_end": "0x20007388",
+    "elf_heap_start": "0x20007388",
+    "elf_heap_end": "0x20009388",
+    "actual_vector_sp": "0x20007388",
+    "existing_production_extra_ram": "0x20009388..0x200093a7",
+    "highest_allocated_object_below_stack": "0x20005383",
+    "elf_unused_range": "0x20009388..0x2000ffff",
+    "scan_code_ranges": 751,
+    "scan_ldr_literal_references": 927,
+    "direct_mailbox_ldr_references": [],
+    "direct_mailbox_movw_movt_references": [],
+    "limitation": "Static mapping and memory-reference audit; no hardware execution or formal proof of all dynamically formed addresses."
+  },
+  "abi": {
+    "writeClock": {
+      "address": "0x267fb",
+      "r0": "seconds unsigned8",
+      "r1": "minutes unsigned8",
+      "r2": "hours unsigned8",
+      "r3": "date unsigned8",
+      "sp_plus_0": "month as 32-bit stack argument",
+      "sp_plus_4": "year as 32-bit stack argument (26 for 2026)",
+      "return_r0": "0 success; nonzero failure",
+      "stack_alignment": "8-byte at call",
+      "verified_prologue": "push13registers52bytes; subSP12; extras read from currentSP+0x40,+0x44"
+    },
+    "readClock": {
+      "address": "0x26a73",
+      "r0": "pointer seconds uint8",
+      "r1": "pointer minutes uint8",
+      "r2": "pointer hours uint8",
+      "r3": "pointer date uint8",
+      "sp_plus_0": "pointer month uint8",
+      "sp_plus_4": "pointer year uint8",
+      "return_r0": "0 valid;1 TWI fail;2 clock validity flag",
+      "stack_alignment": "8-byte at call",
+      "verified_prologue": "push11registers44bytes;subSP12;extra args currentSP+0x38,+0x3c"
+    }
+  },
+  "production_differences_from_old_elf": [
+    {
+      "address": "0x269d0",
+      "old_hex": "2de9f041",
+      "working_1_6_hex": "13f0b6bc"
+    },
+    {
+      "address": "0x26a3e",
+      "old_hex": "bdec048b",
+      "working_1_6_hex": "13f08fbc"
+    },
+    {
+      "address": "0x2811c",
+      "old_hex": "70bd0000",
+      "working_1_6_hex": "12f080b8"
+    },
+    {
+      "address": "0x28314",
+      "old_hex": "0320fef7",
+      "working_1_6_hex": "11f09cbf"
+    },
+    {
+      "address": "0x2833c",
+      "old_hex": "43",
+      "working_1_6_hex": "4b"
+    },
+    {
+      "address": "0x28368",
+      "old_hex": "43",
+      "working_1_6_hex": "4b"
+    },
+    {
+      "address": "0x28514",
+      "old_hex": "0a",
+      "working_1_6_hex": "05"
+    },
+    {
+      "address": "0x2876e",
+      "old_hex": "dff8cc07",
+      "working_1_6_hex": "11f00fbe"
+    },
+    {
+      "address": "0x28773",
+      "old_hex": "78",
+      "working_1_6_hex": "bf"
+    },
+    {
+      "address": "0x28775",
+      "old_hex": "284ad1",
+      "working_1_6_hex": "bf00bf"
+    },
+    {
+      "address": "0x29170",
+      "old_hex": "fff72cff",
+      "working_1_6_hex": "11f0d6f8"
+    },
+    {
+      "address": "0x3a105",
+      "old_hex": "05",
+      "working_1_6_hex": "06"
+    }
+  ],
+  "production_1_6_timer_init_note": "1.6 already sets 45875-tick period in helper0x3a220; old-source default-zero delay is fixed in supplied working binary."
+}

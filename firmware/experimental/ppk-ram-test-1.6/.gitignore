@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+logs/
+.syntax_deps/
+host_tests/runtime/
+host_tests/cases/
+host_tests/*.tar.gz

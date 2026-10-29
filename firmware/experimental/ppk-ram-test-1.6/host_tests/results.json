@@ -1,0 +1,318 @@
+{
+  "driver_sha256": "dbebbd998f9e16f49d2ba6e9e9c30f8bafbf0b56affa0ade880dc601fdcc01d0",
+  "runtime": "PowerShell 7.4.13 Linux (official distribution)",
+  "runtime_version": "7.4.13",
+  "platform": "Linux-6.18.55-x86_64-with-glibc2.39",
+  "hardware_access": false,
+  "scope": "PowerShell 7 Linux host logic with Python executable mocks; does not prove Windows 5.1, SWD, RTC, firmware or electrical behavior",
+  "passed": 34,
+  "total": 34,
+  "results": [
+    {
+      "name": "validate_only",
+      "passed": true,
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "issues": [],
+      "tool_calls": 0,
+      "jlink_commands": 0
+    },
+    {
+      "name": "flash",
+      "passed": true,
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "issues": [],
+      "tool_calls": 8,
+      "jlink_commands": 31
+    },
+    {
+      "name": "recover_flash",
+      "passed": true,
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "issues": [],
+      "tool_calls": 10,
+      "jlink_commands": 31
+    },
+    {
+      "name": "start",
+      "passed": true,
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "issues": [],
+      "tool_calls": 5,
+      "jlink_commands": 31
+    },
+    {
+      "name": "check_normal_inactive",
+      "passed": true,
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "issues": [],
+      "tool_calls": 4,
+      "jlink_commands": 10
+    },
+    {
+      "name": "check_normal_active",
+      "passed": true,
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "issues": [],
+      "tool_calls": 4,
+      "jlink_commands": 10
+    },
+    {
+      "name": "restore",
+      "passed": true,
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "issues": [],
+      "tool_calls": 7,
+      "jlink_commands": 4
+    },
+    {
+      "name": "recover_restore",
+      "passed": true,
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "issues": [],
+      "tool_calls": 9,
+      "jlink_commands": 4
+    },
+    {
+      "name": "restore_replaced_after_boot",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 6,
+      "jlink_commands": 0
+    },
+    {
+      "name": "multiple_probes",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 1,
+      "jlink_commands": 0
+    },
+    {
+      "name": "explicit_probe",
+      "passed": true,
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "issues": [],
+      "tool_calls": 5,
+      "jlink_commands": 31
+    },
+    {
+      "name": "unexpected_uicr",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 2,
+      "jlink_commands": 0
+    },
+    {
+      "name": "locked_flash",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 2,
+      "jlink_commands": 0
+    },
+    {
+      "name": "wrong_installed",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 2,
+      "jlink_commands": 0
+    },
+    {
+      "name": "normal_wrong_installed",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 2,
+      "jlink_commands": 0
+    },
+    {
+      "name": "rtc_failure",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 5,
+      "jlink_commands": 31
+    },
+    {
+      "name": "disabled_irq",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 4,
+      "jlink_commands": 10
+    },
+    {
+      "name": "missing_stamp",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 4,
+      "jlink_commands": 10
+    },
+    {
+      "name": "stale_normal_mailbox",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 4,
+      "jlink_commands": 10
+    },
+    {
+      "name": "running_request",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 4,
+      "jlink_commands": 10
+    },
+    {
+      "name": "bad_cookie",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 5,
+      "jlink_commands": 31
+    },
+    {
+      "name": "wrong_ticks",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 5,
+      "jlink_commands": 31
+    },
+    {
+      "name": "inactive",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 5,
+      "jlink_commands": 31
+    },
+    {
+      "name": "coil",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 5,
+      "jlink_commands": 31
+    },
+    {
+      "name": "power_saving",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 5,
+      "jlink_commands": 31
+    },
+    {
+      "name": "invalid_rtc",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 5,
+      "jlink_commands": 31
+    },
+    {
+      "name": "old_rtc",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 5,
+      "jlink_commands": 31
+    },
+    {
+      "name": "final_jlink_error",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 6,
+      "jlink_commands": 31
+    },
+    {
+      "name": "invalid_recover",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 0,
+      "jlink_commands": 0
+    },
+    {
+      "name": "invalid_restore",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 0,
+      "jlink_commands": 0
+    },
+    {
+      "name": "invalid_check_flash",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 0,
+      "jlink_commands": 0
+    },
+    {
+      "name": "invalid_validate_flash",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 0,
+      "jlink_commands": 0
+    },
+    {
+      "name": "wrong_hash",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 0,
+      "jlink_commands": 0
+    },
+    {
+      "name": "unsafe_manifest",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 0,
+      "jlink_commands": 0
+    }
+  ]
+}
