@@ -10,6 +10,12 @@ activates factory mode. On ordinary boot, startup clears the entire 64-byte
 mailbox and the program uses the activation previously stored in external W25Q.
 No new persistence of test activation, secret or device serial is added.
 
+Host fix: reject Java's unrelated `jlink.exe` before all processor operations.
+SEGGER identity is checked from PE version information or its exact embedded
+Commander banner, with installed SEGGER directories preferred over all PATH
+matches. No candidate is executed just to identify it. After the reported
+Java collision, use `START_PPK_TEST.bat` to prepare the already flashed image.
+
 ## Reproduction
 
 Install `requirements-build.txt` in an isolated Python environment. From this
@@ -58,7 +64,7 @@ alignment, preserved registers, reset clearing, normal path, success and RTC/
 state failure paths. Production peripheral routines are mocked at their verified
 entry addresses; these tests do not emulate the complete nRF/SoftDevice/board.
 
-Validation: 15/15 firmware tests and 34/34 host driver mock scenarios passed.
+Validation: 15/15 firmware tests and 41/41 host driver mock scenarios passed.
 The latter execute the actual PowerShell driver on PowerShell 7.4.13 / Linux,
 with fake Nordic/SEGGER executables. They do not establish Windows 5.1, real SWD
 or electrical behavior. See `validation_summary.json` and `host_tests/README.md`.

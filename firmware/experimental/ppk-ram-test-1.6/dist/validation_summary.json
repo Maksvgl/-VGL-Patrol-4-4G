@@ -8,11 +8,13 @@
     "method": "Unicorn Thumb execution; production peripheral calls mocked at verified entry points"
   },
   "host_driver": {
-    "passed": 34,
-    "total": 34,
-    "driver_sha256": "dbebbd998f9e16f49d2ba6e9e9c30f8bafbf0b56affa0ade880dc601fdcc01d0",
+    "passed": 41,
+    "total": 41,
+    "driver_sha256": "9025e71e52cd53df332c64ba2292d8a32364762a917e339061292a9f011b41c4",
     "runtime": "PowerShell 7.4.13 Linux (official distribution)",
-    "method": "Actual PowerShell driver with Python nrfjprog/J-Link fakes; no hardware access"
+    "method": "Actual PowerShell driver with Python nrfjprog/J-Link fakes; no hardware access",
+    "jlink_selection_regressions": 7,
+    "windows_pe_metadata_validated": false
   },
   "preservation_checks": [
     "Approved BIN/FULL SHA-256 locked",

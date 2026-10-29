@@ -3,6 +3,19 @@ import json,os,sys,re,struct,datetime
 from pathlib import Path
 args=sys.argv[1:]
 sp=Path(os.environ['MOCK_STATE_PATH']);tp=Path(os.environ['MOCK_TRACE_PATH']);scenario=os.environ.get('MOCK_SCENARIO','')
+# Discovery may inspect executables, but must not open a probe or write target state.
+if Path(sys.argv[0]).name.lower()=='jlink.exe':
+ is_java=Path(sys.argv[0]).parent.name.lower()=='java bin'
+ if is_java or '-CommandFile' not in args:
+  with tp.open('a')as f:f.write(json.dumps({'identity': 'java' if is_java else 'segger','path':sys.argv[0],'args':args})+'\n')
+  if is_java:
+   print('Error: unknown option: '+(args[0]if args else ''))
+   print('Usage: jlink <options> --module-path <modulepath> --add-modules <module>[,<module>...]')
+   sys.exit(2)
+  print('SEGGER J-Link Commander V9.20 (Compiled Oct 22 2026)')
+  print('DLL version V9.20, compiled Oct 22 2026')
+  print('J-Link Commander command line options: -Device -If -USB -CommandFile')
+  sys.exit(0)
 s=json.loads(sp.read_text())if sp.exists()else {'uicr':0x78000,'memory':{},'firmware':'VGL_Patrol_1.6_PPK_RAM_TEST_FULL_S132_BOOTLOADER.hex'}
 mem=s['memory']
 def put(addr,data):
@@ -17,7 +30,7 @@ def boot():
  if scenario=='stale_mailbox':pw(0x2000ffcc,1)
  if scenario=='running_request':pw(0x2000ffc8,1)
 if not mem:boot()
-with tp.open('a')as f:f.write(json.dumps({'tool':Path(sys.argv[0]).name,'args':args})+'\n')
+with tp.open('a')as f:f.write(json.dumps({'tool':Path(sys.argv[0]).name,'path':sys.argv[0],'args':args})+'\n')
 if Path(sys.argv[0]).name=='nrfjprog.exe':
  if '--ids'in args:
   print('123456789');

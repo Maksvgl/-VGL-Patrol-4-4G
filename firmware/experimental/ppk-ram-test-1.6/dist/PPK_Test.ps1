@@ -114,24 +114,53 @@ function Find-Application([string]$Name) {
     return $null
 }
 
+function Test-SeggerJLink([string]$Path) {
+    # Java's jlink.exe has the same filename. Identify the executable before
+    # any nrfjprog/target access; never run an unverified candidate to detect it.
+    if (-not (Test-Path -LiteralPath $Path -PathType Leaf)) { return $false }
+    try {
+        $version = [Diagnostics.FileVersionInfo]::GetVersionInfo($Path)
+        if ($version.CompanyName) {
+            return (($version.CompanyName -match 'SEGGER') -and
+                (($version.FileDescription -match 'J[- ]?Link.*Commander') -or
+                 ($version.OriginalFilename -ieq 'JLink.exe')))
+        }
+    } catch { }
+    # Some distributions have no version resource. Require the exact embedded
+    # Commander banner (ASCII or UTF-16), not the filename or installation path.
+    try {
+        $item = Get-Item -LiteralPath $Path
+        if ($item.Length -gt 16777216) { return $false }
+        $bytes = [IO.File]::ReadAllBytes($Path)
+        return (([Text.Encoding]::ASCII.GetString($bytes).Contains('SEGGER J-Link Commander')) -or
+            ([Text.Encoding]::Unicode.GetString($bytes).Contains('SEGGER J-Link Commander')))
+    } catch { return $false }
+}
+
 function Find-JLink([string]$ExplicitPath) {
     if ($ExplicitPath) {
         Assert-True (Test-Path -LiteralPath $ExplicitPath -PathType Leaf) 'The explicit JLinkPath does not exist.'
-        return (Resolve-Path -LiteralPath $ExplicitPath).Path
+        $resolved = (Resolve-Path -LiteralPath $ExplicitPath).Path
+        Assert-True (Test-SeggerJLink $resolved) 'The explicit JLinkPath is not SEGGER J-Link Commander. Java jlink.exe cannot be used.'
+        return $resolved
     }
-    $fromPath = Find-Application 'JLink.exe'
-    if ($fromPath) { return $fromPath }
     $candidates = @()
-    foreach ($base in @($env:ProgramFiles, ${env:ProgramFiles(x86)})) {
+    foreach ($base in @($env:ProgramW6432, $env:ProgramFiles, ${env:ProgramFiles(x86)})) {
         if (-not $base) { continue }
         $segger = Join-Path $base 'SEGGER'
         if (-not (Test-Path -LiteralPath $segger -PathType Container)) { continue }
-        $candidates += @(Get-ChildItem -LiteralPath $segger -Directory -ErrorAction SilentlyContinue |
+        $candidates += @(Get-ChildItem -LiteralPath $segger -Directory -ErrorAction SilentlyContinue | Sort-Object Name -Descending |
             ForEach-Object { Join-Path $_.FullName 'JLink.exe' } |
             Where-Object { Test-Path -LiteralPath $_ -PathType Leaf })
     }
-    Assert-True ($candidates.Count -gt 0) 'JLink.exe was not found. Install SEGGER J-Link 7.92d or newer, or pass -JLinkPath.'
-    return ($candidates | Sort-Object -Descending | Select-Object -First 1)
+    # Search all PATH matches too: a Java installation can precede SEGGER.
+    $candidates += @(Get-Command 'JLink.exe' -All -CommandType Application -ErrorAction SilentlyContinue |
+        ForEach-Object { $_.Source })
+    foreach ($candidate in @($candidates | Select-Object -Unique)) {
+        if (Test-SeggerJLink $candidate) { return $candidate }
+        Write-Host ('Skipping non-SEGGER JLink.exe: ' + $candidate)
+    }
+    throw 'SEGGER J-Link Commander was not found. Java jlink.exe cannot be used. Install SEGGER J-Link 7.92d or newer, or pass -JLinkPath with its full path. No processor operation was started.'
 }
 
 function Validate-Package {
@@ -178,6 +207,7 @@ try {
     $script:Nrf = Find-Application 'nrfjprog.exe'
     Assert-True ([bool]$script:Nrf) 'nrfjprog.exe was not found in PATH. Install Nordic nRF Command Line Tools.'
     $script:JLink = Find-JLink $JLinkPath
+    Write-Host ('SEGGER J-Link Commander: ' + $script:JLink)
     $idsOutput = Invoke-Tool $script:Nrf @('--ids') 'List_probes'
     $ids = @($idsOutput -split '\r?\n' | ForEach-Object { $_.Trim() } | Where-Object { $_ -match '^\d{6,12}$' } | Select-Object -Unique)
     if ($ProbeSerial) {

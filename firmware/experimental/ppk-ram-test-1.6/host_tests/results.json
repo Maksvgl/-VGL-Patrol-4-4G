@@ -1,12 +1,12 @@
 {
-  "driver_sha256": "dbebbd998f9e16f49d2ba6e9e9c30f8bafbf0b56affa0ade880dc601fdcc01d0",
+  "driver_sha256": "9025e71e52cd53df332c64ba2292d8a32364762a917e339061292a9f011b41c4",
   "runtime": "PowerShell 7.4.13 Linux (official distribution)",
   "runtime_version": "7.4.13",
   "platform": "Linux-6.18.55-x86_64-with-glibc2.39",
   "hardware_access": false,
   "scope": "PowerShell 7 Linux host logic with Python executable mocks; does not prove Windows 5.1, SWD, RTC, firmware or electrical behavior",
-  "passed": 34,
-  "total": 34,
+  "passed": 41,
+  "total": 41,
   "results": [
     {
       "name": "validate_only",
@@ -307,6 +307,69 @@
     },
     {
       "name": "unsafe_manifest",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 0,
+      "jlink_commands": 0
+    },
+    {
+      "name": "java_path_segger_install",
+      "passed": true,
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "issues": [],
+      "tool_calls": 10,
+      "jlink_commands": 31
+    },
+    {
+      "name": "java_then_segger_path",
+      "passed": true,
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "issues": [],
+      "tool_calls": 5,
+      "jlink_commands": 31
+    },
+    {
+      "name": "java_only_recover_blocked",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 0,
+      "jlink_commands": 0
+    },
+    {
+      "name": "missing_jlink_recover_blocked",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 0,
+      "jlink_commands": 0
+    },
+    {
+      "name": "explicit_java_recover_blocked",
+      "passed": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "issues": [],
+      "tool_calls": 0,
+      "jlink_commands": 0
+    },
+    {
+      "name": "explicit_segger_java_path",
+      "passed": true,
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "issues": [],
+      "tool_calls": 5,
+      "jlink_commands": 31
+    },
+    {
+      "name": "explicit_missing_recover_blocked",
       "passed": true,
       "exit_code": 1,
       "expected_exit_code": 1,

@@ -24,7 +24,7 @@ def sha(path):
 
 
 def execute(pwsh, index, name, args, scenario="", expected=0, needle=None,
-            corrupt=False, traversal=False):
+            corrupt=False, traversal=False, discovery=""):
     folder = CASE_ROOT / f"{index:02d} {name} with spaces"
     folder.mkdir(parents=True)
     (folder / DRIVER.name).write_bytes(DRIVER_BYTES)
@@ -42,8 +42,36 @@ def execute(pwsh, index, name, args, scenario="", expected=0, needle=None,
     trace = folder / "trace.jsonl"
     state = folder / "state.json"
     env = os.environ.copy()
+    paths = [str(CASE_ROOT / "bin")]
+    if discovery:
+        mock = ROOT / "mock_tool.py"
+        nrfbin = folder / "Nordic bin"
+        javabin = folder / "Java bin"
+        seggerbin = folder / "SEGGER path bin"
+        programfiles = folder / "Program Files"
+        installed = programfiles / "SEGGER" / "JLink_V920"
+        for bindir in (nrfbin, javabin, seggerbin, installed):
+            bindir.mkdir(parents=True)
+        (nrfbin / "nrfjprog.exe").symlink_to(mock)
+        java = javabin / "JLink.exe"
+        java.write_text("#!/usr/bin/env python3\nimport sys\nprint('Error: unknown option: '+(sys.argv[1] if len(sys.argv)>1 else ''))\nprint('Usage: jlink <options> --module-path <modulepath> --add-modules <module>[,<module>...]')\nsys.exit(2)\n")
+        java.chmod(0o755)
+        (seggerbin / "JLink.exe").symlink_to(mock)
+        (installed / "JLink.exe").symlink_to(mock)
+        if discovery in ("java_only", "missing", "java_then_segger_path"):
+            (installed / "JLink.exe").unlink()
+        paths = [str(nrfbin)]
+        if discovery != "missing":
+            paths.append(str(javabin))
+        if discovery == "java_then_segger_path":
+            paths.append(str(seggerbin))
+        env["ProgramFiles"] = str(programfiles)
+        env["ProgramFiles(x86)"] = str(folder / "Empty Program Files x86")
+        args = [arg.replace("{JAVA_JLINK}", str(javabin / "JLink.exe"))
+                .replace("{SEGGER_JLINK}", str(installed / "JLink.exe"))
+                .replace("{MISSING_JLINK}", str(folder / "No JLink.exe")) for arg in args]
     env.update({"MOCK_STATE_PATH": str(state), "MOCK_TRACE_PATH": str(trace),
-                "MOCK_SCENARIO": scenario, "PATH": str(CASE_ROOT / "bin") + os.pathsep + env["PATH"]})
+                "MOCK_SCENARIO": scenario, "PATH": os.pathsep.join(paths + [env["PATH"]])})
     result = subprocess.run([str(pwsh), "-NoLogo", "-NoProfile", "-NonInteractive", "-File",
                              str(folder / DRIVER.name), *args], env=env,
                             capture_output=True, text=True, timeout=90)
@@ -61,6 +89,16 @@ def execute(pwsh, index, name, args, scenario="", expected=0, needle=None,
         "invalid_recover", "invalid_restore", "invalid_check_flash", "invalid_validate_flash")
     if no_hardware and events:
         problems.append("unexpected target/tool access before validation")
+    if discovery and expected != 0 and calls:
+        problems.append("discovery failure accessed a probe/target tool before rejecting J-Link")
+    if discovery and any("identity" in event for event in events):
+        problems.append("discovery executed a candidate instead of inspecting its identity")
+    if discovery and expected == 0:
+        jlinks = [call for call in calls if call["tool"].lower() == "jlink.exe"]
+        if not jlinks:
+            problems.append("discovery success did not use SEGGER target commands")
+        if any(Path(call.get("path", "")).parent.name.lower() == "java bin" for call in jlinks):
+            problems.append("Java executable was used for target commands")
     if result.returncode == 0 and not no_hardware:
         if commands[-4:] != ["Go", "WriteDP 2, 0", "WriteDP 1, 0", "Exit"]:
             problems.append("final target commands did not release DP power in required order")
@@ -165,6 +203,18 @@ def main():
                            needle="SHA-256 mismatch", corrupt=True))
     results.append(execute(pwsh, len(results) + 1, "unsafe_manifest", [], expected=1,
                            needle="Unsafe filename in manifest", traversal=True))
+    discovery_cases = [
+        ("java_path_segger_install", ["-Flash", "-Recover"], "installed", 0, "READY FOR PPK MEASUREMENT."),
+        ("java_then_segger_path", [], "java_then_segger_path", 0, "READY FOR PPK MEASUREMENT."),
+        ("java_only_recover_blocked", ["-Flash", "-Recover"], "java_only", 1, "SEGGER"),
+        ("missing_jlink_recover_blocked", ["-Flash", "-Recover"], "missing", 1, "SEGGER"),
+        ("explicit_java_recover_blocked", ["-Flash", "-Recover", "-JLinkPath", "{JAVA_JLINK}"], "installed", 1, "SEGGER"),
+        ("explicit_segger_java_path", ["-JLinkPath", "{SEGGER_JLINK}"], "installed", 0, "READY FOR PPK MEASUREMENT."),
+        ("explicit_missing_recover_blocked", ["-Flash", "-Recover", "-JLinkPath", "{MISSING_JLINK}"], "installed", 1, "explicit JLinkPath does not exist"),
+    ]
+    for name, args, discovery, expected, needle in discovery_cases:
+        results.append(execute(pwsh, len(results) + 1, name, args, discovery=discovery,
+                               expected=expected, needle=needle))
     runtime_version = subprocess.run([str(pwsh), "-NoProfile", "-Command", "$PSVersionTable.PSVersion.ToString()"], capture_output=True, text=True, check=True).stdout.strip()
     summary = {"driver_sha256": hashlib.sha256(DRIVER_BYTES).hexdigest(), "runtime": str(pwsh),
                "runtime_version": runtime_version, "platform": platform.platform(), "case_root": str(CASE_ROOT),

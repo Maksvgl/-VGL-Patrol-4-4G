@@ -4,6 +4,12 @@ Flatten these files into the deliverable directory beside the HEX and
 `flash_manifest.json`. The driver supports Windows PowerShell 5.1, Nordic
 `nrfjprog.exe`, and SEGGER J-Link Commander 7.92d or later.
 
+J-Link discovery verifies SEGGER identity before any nrfjprog/target operation.
+It checks installed SEGGER directories first, then every PATH match, rejecting
+Java's unrelated `jlink.exe`. Explicit `-JLinkPath` also requires SEGGER identity.
+Identity is read from the PE version resource or exact embedded Commander banner;
+candidates are not launched for detection. The selected full path is printed.
+
 Expected manifest, all filenames relative to the deliverable directory:
 
 ```json
